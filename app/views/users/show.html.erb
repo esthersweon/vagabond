@@ -1,0 +1,12 @@
+<div>
+  <%= render 'shared/profile' %>
+  <%= link_to 'Edit Profile', edit_user_path(current_user.id) %>
+  <ul>
+    <% @user.posts.each do |post| %>
+      <li>
+        <p><%= link_to post.title, post_path({ city_id: post.city_id, post_id: post.id }) %></p>
+        <p><%= post.content %></p>
+      </li>
+    <% end %>
+  </ul>
+</div>
