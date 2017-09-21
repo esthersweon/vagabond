@@ -1,0 +1,24 @@
+<div class="jumbotron" style="height: 75vh; background-image: url(<%= asset_path @city.photo %>); background-size: cover">
+  <h1 class="display-3"><%= @city.name %></h1>
+  <p class="lead"><%= @city.description %></p>
+</div>
+<div class="container">
+  <%= link_to "Go Back to #{ @city.name }", @city, class: "btn btn-secondary" %>
+  <% if current_user %>
+    <%= form_for @post, url: post_create_path(@city.id) do |f| %>
+      <%= f.hidden_field :user_id, :value => current_user.id %>
+      <%= f.hidden_field :city_id, :value => @city.id %>
+      <div class="form-group">
+        <%= label(:post, :title) %>
+        <%= f.text_field :title, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= label(:post, :content) %>
+        <%= f.text_area :content, class: "form-control" %>
+       </div>
+      <%= f.submit "Add Post", class: "btn btn-primary" %>
+     <% end %>
+  <% else %>
+    Log in to create post
+  <% end %>
+</div>

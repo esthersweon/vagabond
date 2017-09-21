@@ -1,12 +1,14 @@
-<div>
+<div class="container">
   <%= render 'shared/profile' %>
   <%= link_to 'Edit Profile', edit_user_path(current_user.id) %>
-  <ul>
-    <% @user.posts.each do |post| %>
-      <li>
-        <p><%= link_to post.title, post_path({ city_id: post.city_id, post_id: post.id }) %></p>
-        <p><%= post.content %></p>
-      </li>
-    <% end %>
-  </ul>
+  <% @user.posts.each do |post| %>
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title"><%= post.title %></h4>
+        <h6 class="card-subtitle mb-2 text-muted">by <%= "#{post.user.first_name} #{post.user.last_name}" %></h6>
+        <p class="card-text"><%= post.content %></p>
+        <p><%= link_to 'Read More..', post_path({ city_id: post.city_id, post_id: post.id }), class: "btn btn-primary" %></p>
+      </div>
+    </div>
+  <% end %>
 </div>

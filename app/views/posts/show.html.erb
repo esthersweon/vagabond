@@ -1,6 +1,24 @@
-<%= link_to "Back to #{@city.name}", @city %>
+<div class="jumbotron" style="height: 75vh; background-image: url(<%= asset_path @post.city.photo %>); background-size: cover">
+  <h1 class="display-3"><%= @post.city.name %></h1>
+  <!-- <p class="lead"><%= @post.city.description %></p> -->
+</div>
 
-<%= render 'shared/profile' %>
-
-<h1><%= @post.title %></h1>
-<p><%= @post.content %></p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <%= link_to "Back to #{@post.city.name}", @post.city, class: "btn btn-secondary" %>
+      <%= render 'shared/profile' %>
+    </div>
+    <div class="col-sm-8">
+      <div class="card row">
+        <div class="card-body">
+          <h4 class="card-title"><%= @post.title %></h4>
+          <p class="card-text"><%= @post.content %></p>
+          <% if current_user.id == @post.user.id %>
+            <%= link_to "Edit", edit_post_path({ city_id: @post.city.id, post_id: @post.id }), class: "btn btn-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

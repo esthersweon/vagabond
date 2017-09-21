@@ -1,0 +1,20 @@
+<div class="container">
+  <%= link_to "Go Back to #{ @post.title }", @post, class: "btn btn-secondary" %>
+  <% if current_user %>
+    <%= form_for @post, url: post_create_path(@post.city.id) do |f| %>
+      <%= f.hidden_field :user_id, :value => current_user.id %>
+      <%= f.hidden_field :city_id, :value => @post.city.id %>
+      <div class="form-group">
+        <%= label(:post, :title) %>
+        <%= f.text_field :title, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= label(:post, :content) %>
+        <%= f.text_area :content, class: "form-control" %>
+       </div>
+      <%= f.submit "Add Post", class: "btn btn-primary" %>
+     <% end %>
+  <% else %>
+    Log in to create post
+  <% end %>
+</div>

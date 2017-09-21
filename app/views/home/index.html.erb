@@ -1,0 +1,42 @@
+<div class="jumbotron" style="height: 75vh; background-image: url(<%= asset_path 'home.jpg' %>); background-size: cover">
+  <h1 class="display-3">Travel with Vagabond</h1>
+  <p class="lead">Curating insider tips for destinations around the world – by insiders, for insiders.</p>
+
+  <form class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="text" placeholder="Explore a City" aria-label="Search">
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</div>
+
+<div class="container">
+  <div class="row">
+    <h2>Explore Cities</h2>
+  </div>
+  <div class="row">
+    <% @cities.each do |city| %>
+      <div class="card col-sm">
+        <%= image_tag city.photo, alt: city.name, height: 150 %>
+        <div class="card-body">
+          <h4 class="card-title"><%= city.name %></h4>
+          <p class="card-text"><%= truncate(city.description, length: 150) %></p>
+          <%= link_to "Explore #{ city.name }", city, class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <h2>Explore Posts</h2>
+  </div>
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="card col-sm-6">
+        <div class="card-body">
+          <h4 class="card-title"><%= post.title %></h4>
+          <p class="card-text"><%= post.content %></p>
+          <%= link_to "Read More..", post_path({ city_id: post.city.id, post_id: post.id }), class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

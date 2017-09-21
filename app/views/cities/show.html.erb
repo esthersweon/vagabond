@@ -1,38 +1,43 @@
-<div class="jumbotron">
-  <h1 class="display-3"><%= @city.name %>!</h1>
-  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-  <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-  <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-  </p>
+<div class="jumbotron" style="height: 75vh; background-image: url(<%= asset_path @city.photo %>); background-size: cover">
+  <h1 class="display-3"><%= @city.name %></h1>
+  <p class="lead"><%= @city.description %></p>
 </div>
 
 <div class="container">
   <div class="row">
-    <% @city.posts.each do |post| %>
-      <div class="card col-sm" style="width: 20rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-          <h4 class="card-title"><%= post.title %></h4>
-          <p class="card-text"><%= post.content %></p>
-          <%= link_to "Read more", post_path({ city_id: @city.id, post_id: post.id }), class: "btn btn-primary"  %>
-        </div>
-      </div>
-    <% end %>
+    <div class="col-sm-8">
+      <% if @city.posts.length > 0 %>
+        <% @city.posts.each do |post| %>
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title"><%= post.title %></h4>
+              <p class="card-text"><%= post.content %></p>
+              <%= link_to "Read more", post_path({ city_id: @city.id, post_id: post.id }), class: "btn btn-primary"  %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <h2>There are no tips to display.</h2>
+      <% end %>
+    </div>
+    <div class="col-sm-4">
+      <% if current_user %>
+        <%= form_for @post, url: post_create_path(@city.id) do |f| %>
+          <%= f.hidden_field :user_id, :value => current_user.id %>
+          <%= f.hidden_field :city_id, :value => @city.id %>
+          <div class="form-group">
+            <%= label(:post, :title) %>
+            <%= f.text_field :title, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= label(:post, :content) %>
+            <%= f.text_area :content, class: "form-control" %>
+           </div>
+          <%= f.submit "Add Post", class: "btn btn-primary" %>
+         <% end %>
+      <% else %>
+        <%= link_to "Login to add post", login_path, class: "btn btn-primary" %>
+      <% end %>
+    </div>
   </div>
 </div>
-
-<% if current_user %>
-  <%= form_for @post, url: post_create_path(@city.id) do |f| %>
-    <%= f.hidden_field :user_id, :value => current_user.id %>
-    <%= f.hidden_field :city_id, :value => @city.id %>
-    <div>
-      <%= f.text_field :title, placeholder: "Title" %>
-    </div>
-    <div>
-      <%= f.text_field :content, placeholder: "Write your post here" %>
-    </div>
-    <%= f.submit "Add" %>
-  <% end %>
-<% end %>
